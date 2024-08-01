@@ -6,7 +6,7 @@ function OurAnimals() {
     const dogs = 'Dogs';
     const otherPets = 'Other pets';
     return (
-        <div>
+        <div className={styles.container}>
             <h2 className={styles.header}>Our Animals</h2>
             <div >
                 <PetCategorie>{cats}</PetCategorie>

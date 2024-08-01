@@ -3,6 +3,7 @@
     padding: 20px;
     border-top: 1px solid #ddd;
     text-align: center;
+	margin: 0 auto;
     margin-top: auto; /* Важливо для відділення футера від контенту вище */
 }
 
