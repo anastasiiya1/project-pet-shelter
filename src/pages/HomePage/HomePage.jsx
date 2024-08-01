@@ -14,7 +14,6 @@ import Partners from '../../components/Partners/Partners';
 import Donations from '../../components/Donations/Donations';
 import OurBlog from '../../components/OurBlog/OurBlog';
 
-
 const HomePage = () => {
     const dispatch = useDispatch();
     // const demo = useSelector(selectDemo);
