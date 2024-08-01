@@ -1,0 +1,66 @@
+.container {
+    padding: 16px;
+    text-align: center;
+}
+
+.header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.buttonGroup {
+    margin-bottom: 16px;
+}
+
+.button {
+    background-color: transparent;
+    color: #007bff;
+    border: 1px solid #007bff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin: 0 10px;
+}
+
+.button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.button:hover {
+    background-color: #e2e6ea;
+}
+
+.btnContainer {
+    margin-top: 20px;
+}
+
+.allAnimalsBtn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.allAnimalsBtn:hover {
+    background-color: #0056b3;
+}
+
+.registerBtn{
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 10px;
+}

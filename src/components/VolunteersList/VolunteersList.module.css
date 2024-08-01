@@ -1,0 +1,46 @@
+.list {
+	display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item {
+    padding: 16px;
+	height: 300px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 16px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.item:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+}
+
+.item:last-child {
+    margin-bottom: 0;
+}
+
+.image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover; 
+    margin-bottom: 8px; 
+}
+
+.name {
+    font-size: 18px; 
+    font-weight: bold; 
+    margin: 0; 
+    color: #333; 
+}
+
+.role {
+    font-size: 14px;
+    font-weight: normal; 
+    margin: 4px 0 0; 
+    color: #666; 
+}

@@ -1,0 +1,26 @@
+.teamMember {
+    text-align: center; 
+    padding: 16px;
+    max-width: 200px; 
+    margin: 0; 
+}
+
+.image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover; 
+    margin-bottom: 8px; 
+}
+
+.name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 4px;
+	margin-top: 0px;
+}
+
+.position {
+    font-size: 14px;
+    color: #555;
+}

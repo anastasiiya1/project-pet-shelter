@@ -8,29 +8,31 @@ function Navigation() {
     return (
         <nav className={styles.nav}>
             <NavLink to="/" className={style}>
-                Home
+                Logo
             </NavLink>
-            <NavLink to="/search" className={style}>
-                Search
-            </NavLink>
-            <NavLink to="/categories" className={style}>
-                Categories
-            </NavLink>
-            <NavLink to="/news" className={style}>
-                News
-            </NavLink>
+            <div className={styles.navLinks}>
             <NavLink to="/about-us" className={style}>
                 About us
             </NavLink>
-            <NavLink to="/donations" className={style}>
-                Help/Donations
+            <NavLink to="/animals" className={style}>
+                Our animals
             </NavLink>
+            <NavLink to="/volunteering" className={style}>
+                Partners
+            </NavLink>
+            <NavLink to="/contacts" className={style}>
+                Contact
+            </NavLink>
+            </div>
+             <div className={styles.login}>
             <NavLink to="/sign-in" className={style}>
                 Sign In
             </NavLink>
-            <NavLink to="/registration" className={style}>
-                Create account
+            <NavLink to="/donations" className={style}>
+                Donations
             </NavLink>
+            </div>
+            
         </nav>
     );
 }

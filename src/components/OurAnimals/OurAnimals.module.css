@@ -1,0 +1,27 @@
+.header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+	text-align: center;
+}
+
+.btnContainer {
+	display: flex;
+	justify-content: center;
+	width: 0 auto;
+}
+.allAnimalsBtn {
+	background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+}
+
+.allAnimalsBtn:hover {
+    background-color: #0056b3;
+}

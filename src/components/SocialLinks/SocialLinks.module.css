@@ -1,0 +1,20 @@
+.container {
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+  }
+  
+  .link {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+  }
+  
+  .icon {
+	fill: #007bff;
+	transition: fill 0.3s;
+  }
+  
+  .link:hover .icon {
+	fill: #0056b3;
+  }

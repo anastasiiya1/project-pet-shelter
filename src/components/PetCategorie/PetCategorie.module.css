@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+}
+
+.animalCard {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    width: 150px;
+}
+
+.animalImage {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.animalText {
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+.btn {
+    /* margin-left: auto; */
+    margin-right: -50px;
+    margin-left: -30px;
+    rotate: 90deg;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

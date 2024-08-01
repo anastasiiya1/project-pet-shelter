@@ -1,0 +1,99 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 600px;
+    margin: 16px;
+    background-color: #fff;
+}
+
+.imageContainer {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+}
+
+.headerRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.favoriteButton {
+    padding: 8px;
+    font-size: 14px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    color: #ff69b4;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.favoriteButton:hover {
+    color: #ff4c8c;
+}
+
+.description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 16px;
+}
+
+.actionButtons {
+    display: flex;
+    gap: 8px;
+	margin-top: 50px;
+}
+
+.meetButton,
+.donateButton {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    flex: 1;
+}
+
+.meetButton {
+    background-color: #007bff;
+}
+
+.donateButton {
+    background-color: #28a745;
+}
+
+.meetButton:hover {
+    background-color: #0056b3;
+}
+
+.donateButton:hover {
+    background-color: #218838;
+}
