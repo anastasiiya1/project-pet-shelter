@@ -10,7 +10,7 @@ export const registerUser = createAsyncThunk(
             const response = await axios.post('/user', userData);
             return response.data;
         } catch (err) {
-            return thunkAPI.rejectWithValue(err.response ? err.response.data : 'Network Error');
+            return thunkAPI.rejectWithValue(err.message);
         }
     }
 );
