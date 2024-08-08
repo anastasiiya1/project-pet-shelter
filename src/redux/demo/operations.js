@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
-export const getDemo = createAsyncThunk('/api/v1/demo/getDemo', async (_, thunkAPI) => {
+export const getDemo = createAsyncThunk('demo/getDemo', async (_, thunkAPI) => {
     try {
         const { data } = await axios.get('/demo');
         return data;
@@ -12,7 +12,7 @@ export const getDemo = createAsyncThunk('/api/v1/demo/getDemo', async (_, thunkA
     }
 });
 
-export const getDemoAll = createAsyncThunk('/api/v1/demo/getDemoAll', async (_, thunkAPI) => {
+export const getDemoAll = createAsyncThunk('demo/getDemoAll', async (_, thunkAPI) => {
     try {
         const { data } = await axios.get('/demo/all');
         return data.content;
