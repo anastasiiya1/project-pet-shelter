@@ -1,6 +1,10 @@
+import SignInForm from "../../components/SignInForm/SignInForm"
+
 function SignInPage() {
   return (
-	<div>Sign In Page</div>
+	<div>
+    <SignInForm/>
+  </div>
   )
 }
 
