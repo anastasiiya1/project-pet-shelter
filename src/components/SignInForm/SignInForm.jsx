@@ -2,6 +2,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import RegistrationForm from '../RegistrationForm/RegistrationForm';
 import * as Yup from 'yup';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../redux/auth/operations';
 import styles from './SignInForm.module.css';
 
 const SignInSchema = Yup.object().shape({
@@ -16,10 +18,28 @@ const initialValues = {
 
 function SignInForm() {
     const [isSignUp, setIsSignUp] = useState(false);
+    const [loginError, setLoginError] = useState(null);
+    const dispatch = useDispatch();
 
     const toggleMode = () => {
         setIsSignUp((prev) => !prev);
     };
+
+    const handleSignIn = async (values, { resetForm }) => {
+        try {
+            const userData = {
+                email: values.email,
+                password: values.password
+            };
+            await dispatch(loginUser(userData));
+            resetForm();
+            setLoginError(''), console.log('success login');
+        } catch (error) {
+            console.log('login failed', error);
+            setLoginError('Login failed');
+        }
+    };
+
     return (
         <div className={styles.container}>
             {isSignUp ? (
@@ -27,13 +47,7 @@ function SignInForm() {
             ) : (
                 <>
                     <h1>Sign in</h1>
-                    <Formik
-                        initialValues={initialValues}
-                        validationSchema={SignInSchema}
-                        onSubmit={(values) => {
-                            console.log('form data', values);
-                        }}
-                    >
+                    <Formik initialValues={initialValues} validationSchema={SignInSchema} onSubmit={handleSignIn}>
                         {() => (
                             <Form>
                                 <div className={styles.formGroup}>
@@ -50,6 +64,7 @@ function SignInForm() {
                                     <Field name="password" type="password" className={styles.input} />
                                     <ErrorMessage name="password" component="div" className={styles.error} />
                                 </div>
+                                {loginError && <div className={styles.error}>{loginError}</div>}
                                 <button type="submit" className={styles.button}>
                                     Sign in
                                 </button>
