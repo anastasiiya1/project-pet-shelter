@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDemo, getDemoAll } from '../../redux/demo/operations';
+import { selectDemo, selectRecords } from '../../redux/demo/selectors';
 import { selectIsLoading, selectError } from '../../redux/demo/selectors';
-// import { nanoid } from 'nanoid';
+import { nanoid } from 'nanoid';
 
 import Hero from '../../components/Hero/Hero';
 import AnimalsDemo from '../../components/AnimalsDemo/AnimalsDemo';
@@ -16,8 +17,8 @@ import OurBlog from '../../components/OurBlog/OurBlog';
 
 const HomePage = () => {
     const dispatch = useDispatch();
-    // const demo = useSelector(selectDemo);
-    // const records = useSelector(selectRecords);
+    const demo = useSelector(selectDemo);
+    const records = useSelector(selectRecords);
     const isLoading = useSelector(selectIsLoading);
     const error = useSelector(selectError);
 
@@ -31,19 +32,23 @@ const HomePage = () => {
 
     return (
         <div>
-            <Hero/>
-            <AnimalsDemo/>
-            <AboutUs/>
-            <OurTeam/>
-            <Metrics/>
-            <OurAnimals/>
-            <Partners/>
-            <Donations/>
-            <OurBlog/>
-            {/* <p>{demo}</p>
-            {records.map((record) => (
-                <div key={nanoid()}>{record.name}</div>
-            ))} */}
+            <Hero />
+            <AnimalsDemo />
+            <AboutUs />
+            <OurTeam />
+            <Metrics />
+            <OurAnimals />
+            <Partners />
+            <Donations />
+            <OurBlog />
+            <p>{demo}</p>
+            {Array.isArray(records) && records.length > 0 ? (
+                records.map((record) => (
+                    <div key={nanoid()}>{record.name}</div>
+                ))
+            ) : (
+                <p>No records found.</p>
+            )}
         </div>
     );
 };
