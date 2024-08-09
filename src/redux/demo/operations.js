@@ -6,6 +6,7 @@ axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 export const getDemo = createAsyncThunk('demo/getDemo', async (_, thunkAPI) => {
     try {
         const { data } = await axios.get('/api/v1/demo');
+        console.log(import.meta.env.VITE_API_URL);
         return data;
     } catch (err) {
         return thunkAPI.rejectWithValue(err.message);
