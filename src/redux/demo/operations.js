@@ -16,7 +16,7 @@ export const getDemoAll = createAsyncThunk('demo/getDemoAll', async (_, thunkAPI
     try {
         const { data } = await axios.get('/demo/all');
         return data.content;
-    } catch (err) {
-        return thunkAPI.rejectWithValue(err.message);
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
     }
 });
