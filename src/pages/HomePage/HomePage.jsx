@@ -4,6 +4,17 @@ import { getDemo, getDemoAll } from '../../redux/demo/operations';
 import { selectDemo, selectRecords, selectIsLoading, selectError } from '../../redux/demo/selectors';
 import { nanoid } from 'nanoid';
 
+import Hero from '../../components/Hero/Hero';
+import AnimalsDemo from '../../components/AnimalsDemo/AnimalsDemo';
+import AboutUs from '../../components/AboutUs/AboutUs';
+import OurTeam from '../../components/OurTeam/OurTeam';
+import Metrics from '../../components/Metrics/Metrics';
+import OurAnimals from '../../components/OurAnimals/OurAnimals';
+import Partners from '../../components/Partners/Partners';
+import Donations from '../../components/Donations/Donations';
+import OurBlog from '../../components/OurBlog/OurBlog';
+
+
 const HomePage = () => {
     const dispatch = useDispatch();
     const demo = useSelector(selectDemo);
@@ -22,12 +33,22 @@ const HomePage = () => {
 
     return (
         <div>
+            <p>Demo requests:</p>
             <p>{demo}</p>
             {Array.isArray(records) && records.length > 0 ? (
                 records.map((record) => <div key={nanoid()}>{record.name}</div>)
             ) : (
                 <p>No records found.</p>
             )}
+             <Hero />
+            <AnimalsDemo />
+            <AboutUs />
+            <OurTeam />
+            <Metrics />
+            <OurAnimals />
+            <Partners />
+            <Donations />
+            <OurBlog />
         </div>
     );
 };
