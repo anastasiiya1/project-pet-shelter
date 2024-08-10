@@ -5,9 +5,9 @@ axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 export const getDemo = createAsyncThunk('demo/getDemo', async (_, thunkAPI) => {
     try {
-        const { data } = await axios.get('/api/v1/demo');
-        console.log(import.meta.env.VITE_API_URL);
-        return data;
+        const response = await axios.get('/api/v1/demo');
+        console.log('getDemo response:', response.data);
+        return response.data;
     } catch (err) {
         return thunkAPI.rejectWithValue(err.message);
     }
@@ -15,8 +15,9 @@ export const getDemo = createAsyncThunk('demo/getDemo', async (_, thunkAPI) => {
 
 export const getDemoAll = createAsyncThunk('demo/getDemoAll', async (_, thunkAPI) => {
     try {
-        const { data } = await axios.get('/api/v1/demo/all');
-        return data.content;
+        const response = await axios.get('/api/v1/demo/all');
+        console.log('getDemoAll response:', response.data);
+        return response.data.content; 
     } catch (err) {
         return thunkAPI.rejectWithValue(err.message);
     }
