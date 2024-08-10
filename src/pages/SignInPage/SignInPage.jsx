@@ -1,9 +1,9 @@
-// import SignInForm from "../../components/SignInForm/SignInForm"
+import SignInForm from "../../components/SignInForm/SignInForm"
 
 function SignInPage() {
   return (
 	<div>
-    {/* <SignInForm/> */}
+    <SignInForm/>
   </div>
   )
 }
