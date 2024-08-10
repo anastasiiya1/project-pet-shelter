@@ -16,9 +16,15 @@ export const getUserProfilePhoto = createAsyncThunk(
 
 export const uploadUserProfilePhoto = createAsyncThunk(
     'photos/uploadUserProfilePhoto',
-    async ({ userId, newPhoto }, thunkAPI) => {
+    async ({ userId, file }, thunkAPI) => {
         try {
-            const { data } = await axios.post(`/api/v1/photo/user/${userId}`, newPhoto);
+            const formData = new FormData();
+            formData.append('file', file);
+            const { data } = await axios.post(`/api/v1/photo/user/${userId}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             return data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.message);
@@ -36,6 +42,21 @@ export const deleteUserProfilePhoto = createAsyncThunk(
         return thunkAPI.rejectWithValue(err.message);
     }
 });
+
+export const getAdvertThumbnail = createAsyncThunk(
+    'photos/getAdvertThumbnail',
+    async ({ adId, thumbnailId }, thunkAPI) => {
+        try {
+            const response = await axios.get(`/api/v1/file/ad/${adId}/photo/${thumbnailId}`, {
+                responseType: 'blob'
+            });
+            const url = URL.createObjectURL(response.data);
+            return url
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.message);
+        }
+    }
+);
 
 export const getAllAdvertPhotos = createAsyncThunk(
 	'photos/getAllAdvertPhotos',
@@ -77,7 +98,8 @@ export const downloadUserProfilePhotoFile = createAsyncThunk(
     async (userId, thunkAPI) => {
         try {
             const response = await axios.get(`/api/v1/file/user/${userId}`, { responseType: 'blob' });
-            return response.data;
+            const url = URL.createObjectURL(response.data);
+            return url;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.message);
         }

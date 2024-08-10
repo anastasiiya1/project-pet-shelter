@@ -8,16 +8,18 @@ import {
     deleteAdvertPhotos,
     downloadUserProfilePhotoFile,
     getAdvertsPhotoFiles,
-    downloadPhotoById
+    downloadPhotoById,
+    getAdvertThumbnail
 } from './operations';
 
 const handlePending = (state) => {
     state.isLoading = true;
+    state.error = null; // Очистка помилок при новому запиті
 };
 
 const handleReject = (state, action) => {
     state.isLoading = false;
-    state.error = action.payload;
+    state.error = action.payload || 'An error occurred'; // Збереження повної помилки
 };
 
 const photoSlice = createSlice({
@@ -25,7 +27,8 @@ const photoSlice = createSlice({
     initialState: {
         userProfilePhoto: null,
         advertPhotos: [],
-        photoFiles: {},
+        photoFiles: {}, // Ініціалізуйте цей об'єкт відповідно до ваших потреб
+        thumbnailId: null,
         isLoading: false,
         error: null
     },
@@ -76,6 +79,7 @@ const photoSlice = createSlice({
             .addCase(downloadUserProfilePhotoFile.pending, handlePending)
             .addCase(downloadUserProfilePhotoFile.fulfilled, (state) => {
                 state.isLoading = false;
+                // Збереження URL або даних файлу при необхідності
             })
             .addCase(downloadUserProfilePhotoFile.rejected, handleReject)
 
@@ -89,8 +93,17 @@ const photoSlice = createSlice({
             .addCase(downloadPhotoById.pending, handlePending)
             .addCase(downloadPhotoById.fulfilled, (state) => {
                 state.isLoading = false;
+                // Збереження URL або даних файлу при необхідності
             })
-            .addCase(downloadPhotoById.rejected, handleReject);
+            .addCase(downloadPhotoById.rejected, handleReject)
+
+            .addCase(getAdvertThumbnail.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const photoIndex = state.advertPhotos.findIndex((photo) => photo.id === action.payload.id);
+                if (photoIndex !== -1) {
+                    state.advertPhotos[photoIndex] = action.payload;
+                }
+            });
     }
 });
 

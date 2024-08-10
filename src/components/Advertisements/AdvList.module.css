@@ -12,6 +12,11 @@
 }
 
 .advertisementItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
