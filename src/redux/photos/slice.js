@@ -14,12 +14,12 @@ import {
 
 const handlePending = (state) => {
     state.isLoading = true;
-    state.error = null; // Очистка помилок при новому запиті
+    state.error = null; 
 };
 
 const handleReject = (state, action) => {
     state.isLoading = false;
-    state.error = action.payload || 'An error occurred'; // Збереження повної помилки
+    state.error = action.payload || 'An error occurred'; 
 };
 
 const photoSlice = createSlice({
@@ -27,7 +27,7 @@ const photoSlice = createSlice({
     initialState: {
         userProfilePhoto: null,
         advertPhotos: [],
-        photoFiles: {}, // Ініціалізуйте цей об'єкт відповідно до ваших потреб
+        photoFiles: {}, 
         thumbnailId: null,
         isLoading: false,
         error: null
@@ -93,7 +93,6 @@ const photoSlice = createSlice({
             .addCase(downloadPhotoById.pending, handlePending)
             .addCase(downloadPhotoById.fulfilled, (state) => {
                 state.isLoading = false;
-                // Збереження URL або даних файлу при необхідності
             })
             .addCase(downloadPhotoById.rejected, handleReject)
 
