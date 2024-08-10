@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAdvertisements, deleteAdvertisement } from '../../redux/advertisements/operations';
 import { selectAdvertisements, selectIsLoading, selectError } from '../../redux/advertisements/selectors';
 import AdvForm from './AdvForm';
+import AdvItem from './AdvItem'; // Імпорт нового компонента
 import styles from './AdvList.module.css';
 
 function AdvList() {
@@ -27,15 +28,13 @@ function AdvList() {
             <AdvForm />
             <h2>Advertisements</h2>
             <ul className={styles.advertisementsList}>
-                {Array.isArray(adverts) && adverts.length > 0 ? (
+                {adverts.length > 0 ? (
                     adverts.map((ad) => (
-                        <li key={ad.id} className={styles.advertisementItem}>
-                            <h3>{ad.title}</h3>
-                            <p>{ad.description}</p>
-                            <button onClick={() => handleDelete(ad.id)} className={styles.deleteButton}>
-                                Delete
-                            </button>
-                        </li>
+                        <AdvItem 
+                            key={ad.id} 
+                            ad={ad} 
+                            onDelete={handleDelete} 
+                        />
                     ))
                 ) : (
                     <p>No advertisements found.</p>

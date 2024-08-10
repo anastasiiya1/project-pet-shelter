@@ -1,0 +1,33 @@
+.advertisementItem {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    padding: 16px;
+    position: relative;
+}
+
+.imageContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.adImage {
+    max-width: 150px;
+    height: auto;
+    border-radius: 4px;
+}
+
+.deleteButton {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.deleteButton:hover {
+    background-color: darkred;
+}
