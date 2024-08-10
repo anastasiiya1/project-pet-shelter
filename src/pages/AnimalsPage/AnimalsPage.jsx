@@ -1,5 +1,9 @@
+import AdvList from "../../components/Advertisements/AdvList";
+
 function AnimalsPage() {
-    return <div>Animals Page</div>;
+    return <div>
+        <AdvList/>
+    </div>;
 }
 
 export default AnimalsPage;

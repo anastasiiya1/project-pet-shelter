@@ -14,8 +14,17 @@ const advertisementSlice = createSlice({
     name: 'advertisements',
     initialState: {
         items: [],
+        filteredItems: [],
+        searchQuery: '',
         isLoading: false,
         error: null
+    },
+    reducers: {
+        setSearchQuery(state, action){
+            state.searchQuery = action.payload;
+            state.filteredItems = state.items.filter(advert => advert.title.toLowerCase().includes(state.searchQuery.toLowerCase())
+        );
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -41,4 +50,5 @@ const advertisementSlice = createSlice({
     }
 });
 
+export const {setSearchQuery} = advertisementSlice.actions;
 export const advertisementsReducer = advertisementSlice.reducer;
