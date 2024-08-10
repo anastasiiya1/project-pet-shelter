@@ -28,7 +28,7 @@ function AdvList() {
             <AdvForm />
             <h2>Advertisements</h2>
             <ul className={styles.advertisementsList}>
-                {Array.isArray(adverts) && adverts.length > 0 ? (
+                {adverts.length > 0 ? (
                     adverts.map((ad) => (
                         <li key={ad.id} className={styles.advertisementItem}>
                             <AdvPhoto adId={ad.id} thumbnailId={ad.thumbnail.id}/>
