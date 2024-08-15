@@ -16,7 +16,7 @@ export const fetchAdvertisements = createAsyncThunk('advertisements/fetchAll', a
 
 export const addNewAdvertisement = createAsyncThunk(
     'advertisement/addNew',
-    async (formData, thunkAPI) => {
+    async ({formData}, thunkAPI) => {
         try {
             const { data } = await axios.post('/api/v1/ad', formData, {
                 headers: {
