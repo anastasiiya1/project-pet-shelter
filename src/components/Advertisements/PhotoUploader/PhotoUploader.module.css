@@ -1,0 +1,56 @@
+.photoUploader {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.photoUploader label {
+    display: block;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.photoUploader input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.photoUploader ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.photoUploader li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+}
+
+.photoUploader strong {
+    display: block;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.errorMessage {
+    color: #d9534f;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

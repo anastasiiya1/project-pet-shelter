@@ -16,16 +16,12 @@ export const fetchAdvertisements = createAsyncThunk('advertisements/fetchAll', a
 
 export const addNewAdvertisement = createAsyncThunk(
     'advertisement/addNew',
-    async ({ authorId, title, description, price, photoFiles, adAttributes, categoryId }, thunkAPI) => {
+    async (formData, thunkAPI) => {
         try {
-            const { data } = await axios.post('/api/v1/ad', {
-                authorId,
-                title,
-                description,
-                price,
-                photoFiles,
-                adAttributes,
-                categoryId
+            const { data } = await axios.post('/api/v1/ad', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
             return data;
         } catch (err) {

@@ -1,9 +1,10 @@
 .advertisementForm {
-    margin-bottom: 20px;
+    max-width: 400px;
+    margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     border-radius: 8px;
-    background-color: #fff;
+    background-color: #f9f9f9;
 }
 
 .formGroup {
@@ -16,23 +17,47 @@
     font-weight: bold;
 }
 
-.formGroup input,
+.formGroup input[type="text"],
+.formGroup input[type="number"],
 .formGroup textarea {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.formGroup textarea {
+    resize: vertical;
+}
+
+.radioGroup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.radioGroup input[type="radio"] {
+    margin-right: 5px;
+}
+
+.priceInputGroup {
+    margin-top: 10px;
 }
 
 .submitButton {
-    background-color: #3498db;
-    color: white;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
     border: none;
-    padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .submitButton:hover {
-    background-color: #2980b9;
+    background-color: #0056b3;
 }
