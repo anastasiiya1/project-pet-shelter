@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addNewAdvertisement } from '../../redux/advertisements/operations';
+import { uploadAdvertsPhoto } from '../../redux/photos/operations';
 import PhotoUploader from './PhotoUploader/PhotoUploader';
 import CategorySelector from '../CategorySelector/CategorySelector';
 import styles from './AdvForm.module.css';
@@ -15,10 +16,13 @@ function AdvForm() {
     const [categoryId, setCategoryId] = useState('');
     const [adAttributes, setAdAttributes] = useState({
         breed: '',
-        color: '',
         age: '',
         size: '',
-        gender: ''
+        gender: '',
+        coat_length: '',
+        color: '',
+        health_condition: '',
+        pet_name: ''
     });
     const [authorId] = useState(1);
 
@@ -26,43 +30,77 @@ function AdvForm() {
         setPhotoFiles(files);
     };
 
-    const handleSubmit = (e) => {
+    const handlePriceChange = (e) => {
+        let value = e.target.value;
+        if (value === '') {
+            setPrice('');
+            return;
+        }
+        value = parseFloat(value).toFixed(2);
+        setPrice(value);
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const finalPrice = priceOption === 'enterPrice' && !isNaN(parseFloat(price)) ? parseFloat(price) : 0;
+        const finalPrice = priceOption === 'enterPrice' && !isNaN(parseFloat(price)) ? parseFloat(price).toFixed(2) : 0;
         if (isNaN(finalPrice)) {
-            console.error("Invalid price value");
+            console.error('Invalid price value');
+            return;
+        }
+
+        if (photoFiles.length === 0) {
+            console.error('No photo files selected');
             return;
         }
 
         const formData = new FormData();
-        formData.append('authorId', authorId);
         formData.append('title', title);
         formData.append('description', description);
         formData.append('price', finalPrice);
-        formData.append('adAttributes', JSON.stringify(adAttributes));
+        formData.append('authorId', authorId);
         formData.append('categoryId', Number(categoryId));
 
-        photoFiles.forEach((file, index) => {
-            formData.append('photoFiles', file);
-            if (index === 0) {
-                formData.append('thumbnail', file);
-            }
-        });
+        const attributesObject = {
+            breed: adAttributes.breed,
+            age: adAttributes.age,
+            size: adAttributes.size,
+            gender: adAttributes.gender,
+            coat_length: adAttributes.coat_length,
+            color: adAttributes.color,
+            health_condition: adAttributes.health_condition,
+            pet_name: adAttributes.pet_name
+        };
 
-        dispatch(addNewAdvertisement(formData));
-        setTitle('');
-        setDescription('');
-        setPrice('');
-        setPriceOption('');
-        setPhotoFiles([]);
-        setAdAttributes({
-            breed: '',
-            color: '',
-            age: '',
-            size: '',
-            gender: ''
-        });
-        setCategoryId('');
+        formData.append('adAttributes', JSON.stringify(attributesObject));
+
+        try {
+            const adResponse = await dispatch(addNewAdvertisement(formData)).unwrap();
+            const adId = adResponse.id;
+
+            const photosData = new FormData();
+            photoFiles.forEach((file) => photosData.append('files[]', file));
+
+            await dispatch(uploadAdvertsPhoto({ adId, files: photoFiles })).unwrap();
+
+            setTitle('');
+            setDescription('');
+            setPrice('');
+            setPriceOption('');
+            setPhotoFiles([]);
+            setAdAttributes({
+                breed: '',
+                age: '',
+                size: '',
+                gender: '',
+                coat_length: '',
+                color: '',
+                health_condition: '',
+                pet_name: ''
+            });
+            setCategoryId('');
+        } catch (err) {
+            console.log('Failed to create advertisement or upload photos:', err);
+        }
     };
 
     return (
@@ -113,7 +151,9 @@ function AdvForm() {
                             type="number"
                             id="price"
                             value={price}
-                            onChange={(e) => setPrice(e.target.value)}
+                            onChange={handlePriceChange}
+                            step="0.01"
+                            min="0"
                             required
                         />
                     </div>

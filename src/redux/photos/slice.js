@@ -8,18 +8,17 @@ import {
     deleteAdvertPhotos,
     downloadUserProfilePhotoFile,
     getAdvertsPhotoFiles,
-    downloadPhotoById,
-    getAdvertThumbnail
+    downloadPhotoById
 } from './operations';
 
 const handlePending = (state) => {
     state.isLoading = true;
-    state.error = null; 
+    state.error = null;
 };
 
 const handleReject = (state, action) => {
     state.isLoading = false;
-    state.error = action.payload || 'An error occurred'; 
+    state.error = action.payload || 'An error occurred';
 };
 
 const photoSlice = createSlice({
@@ -27,7 +26,7 @@ const photoSlice = createSlice({
     initialState: {
         userProfilePhoto: null,
         advertPhotos: [],
-        photoFiles: {}, 
+        photoFiles: {},
         thumbnailId: null,
         isLoading: false,
         error: null
@@ -94,15 +93,7 @@ const photoSlice = createSlice({
             .addCase(downloadPhotoById.fulfilled, (state) => {
                 state.isLoading = false;
             })
-            .addCase(downloadPhotoById.rejected, handleReject)
-
-            .addCase(getAdvertThumbnail.fulfilled, (state, action) => {
-                state.isLoading = false;
-                const photoIndex = state.advertPhotos.findIndex((photo) => photo.id === action.payload.id);
-                if (photoIndex !== -1) {
-                    state.advertPhotos[photoIndex] = action.payload;
-                }
-            });
+            .addCase(downloadPhotoById.rejected, handleReject);
     }
 });
 
