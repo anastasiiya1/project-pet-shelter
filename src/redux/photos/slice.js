@@ -97,4 +97,4 @@ const photoSlice = createSlice({
     }
 });
 
-export const photosReducer = photoSlice.reducer;
+export default photoSlice.reducer;

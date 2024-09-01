@@ -1,4 +1,8 @@
-export const selectAllCategories = (state) => state.category?.categories || [];
-export const selectCategoryLoading = (state) => state.category?.isLoading || false;
-export const selectCategoryError = (state) => state.category?.error || null;
-export const selectCurrentCategory = (state) => state.category?.currentCategory || null;
+import { createSelector } from "reselect";
+
+const selectCategoriesState = (state) => state.categories;
+
+export const selectCategories = createSelector(
+    [selectCategoriesState],
+    (categoriesState) => categoriesState ? categoriesState.items : []  // Перевірка на undefined
+);

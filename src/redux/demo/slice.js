@@ -46,4 +46,4 @@ const demoSlice = createSlice({
             });
     }
 });
-export const demoReducer = demoSlice.reducer;
+export default demoSlice.reducer;

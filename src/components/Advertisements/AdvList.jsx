@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAdvertisements, deleteAdvertisement } from '../../redux/advertisements/operations';
 import { selectAdvertisements, selectIsLoading, selectError } from '../../redux/advertisements/selectors';
-import AdvForm from './AdvForm';
+// import AdvForm from './AdvForm';
+import CreateAdvForm from '../CreateAdvForm/CreateAdvForm';
 import AdvPhoto from './AdvPhoto';
 import styles from './AdvList.module.css';
 
@@ -25,7 +26,8 @@ function AdvList() {
 
     return (
         <div className={styles.advertisementsContainer}>
-            <AdvForm />
+            <CreateAdvForm/>
+            {/* <AdvForm /> */}
             <h2>Advertisements</h2>
             <ul className={styles.advertisementsList}>
                 {adverts.length > 0 ? (

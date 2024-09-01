@@ -1,10 +1,10 @@
 import styles from './CategorySelector.module.css';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCategories } from '../../redux/categories/operations';
+import { getCategories, getCategoryById } from '../../redux/categories/operations';
 import AttributesSelector from './AttributesSelector';
 
-function CategorySelector({ categoryId, setCategoryId, adAttributes, setAdAttributes }) {
+function CategorySelector({ formData, setFormData }) {
     const dispatch = useDispatch();
     const [categories, setCategories] = useState([]);
     const [attributes, setAttributes] = useState([]);
@@ -23,31 +23,34 @@ function CategorySelector({ categoryId, setCategoryId, adAttributes, setAdAttrib
         fetchCategories();
     }, [dispatch]);
 
-    const handleCategoryChange = (e) => {
+    const handleCategoryChange = async (e) => {
         const selectedCategoryId = e.target.value;
-        setCategoryId(selectedCategoryId);
+        setFormData((prevState) => ({
+            ...prevState,
+            categoryId: selectedCategoryId
+        }));
 
-        const selectedCategory = categories.find((category) => category.id === parseInt(selectedCategoryId));
-
-        if (selectedCategory) {
-            setAttributes(selectedCategory.attribute || []);
-            setAdAttributes({
-                breed: '',
-                age: '',
-                size: '',
-                gender: '',
-                coat_length: '',
-                color: '',
-                health_condition: '',
-                pet_name: ''
-            });
+        try {
+            const action = await dispatch(getCategoryById(selectedCategoryId));
+            setAttributes(action.payload.attribute || []);
+            setFormData((prevState) => ({
+                ...prevState,
+                adAttributes: []  // Очищуємо атрибути при зміні категорії
+            }));
+        } catch (error) {
+            console.error('Error fetching category:', error);
         }
     };
 
     return (
         <div className={styles.formGroup}>
             <label htmlFor="categoryId">Select category</label>
-            <select id="categoryId" value={categoryId} onChange={handleCategoryChange} required>
+            <select
+                id="categoryId"
+                value={formData.categoryId}
+                onChange={handleCategoryChange}
+                required
+            >
                 <option value="">Select a category</option>
                 {Array.isArray(categories) && categories.length > 0 ? (
                     categories.map((category) => (
@@ -59,7 +62,16 @@ function CategorySelector({ categoryId, setCategoryId, adAttributes, setAdAttrib
                     <option disabled>No records found.</option>
                 )}
             </select>
-            <AttributesSelector attributes={attributes} adAttributes={adAttributes} setAdAttributes={setAdAttributes} />
+            <AttributesSelector
+                attributes={attributes}
+                adAttributes={formData.adAttributes}
+                setAdAttributes={(newAttributes) =>
+                    setFormData((prevState) => ({
+                        ...prevState,
+                        adAttributes: newAttributes
+                    }))
+                }
+            />
         </div>
     );
 }

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addNewAdvertisement } from '../../redux/advertisements/operations';
-import { uploadAdvertsPhoto } from '../../redux/photos/operations';
 import PhotoUploader from './PhotoUploader/PhotoUploader';
 import CategorySelector from '../CategorySelector/CategorySelector';
 import styles from './AdvForm.module.css';
@@ -42,24 +41,21 @@ function AdvForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
+        // Перевірка на наявність фото
+        if (photoFiles.length === 0) {
+            console.error('No photo files selected');
+            return;
+        }
+    
+        // Формування основних даних для оголошення
         const finalPrice = priceOption === 'enterPrice' && !isNaN(parseFloat(price)) ? parseFloat(price).toFixed(2) : 0;
         if (isNaN(finalPrice)) {
             console.error('Invalid price value');
             return;
         }
-
-        if (photoFiles.length === 0) {
-            console.error('No photo files selected');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('description', description);
-        formData.append('price', finalPrice);
-        formData.append('authorId', authorId);
-        formData.append('categoryId', Number(categoryId));
-
+    
+        // Формування даних для оголошення
         const attributesObject = {
             breed: adAttributes.breed,
             age: adAttributes.age,
@@ -70,18 +66,33 @@ function AdvForm() {
             health_condition: adAttributes.health_condition,
             pet_name: adAttributes.pet_name
         };
-
-        formData.append('adAttributes', JSON.stringify(attributesObject));
-
+    
+        const formData = {
+            title,
+            description,
+            price: finalPrice,
+            authorId,
+            categoryId: Number(categoryId),
+            photoFiles: [], // placeholder for photo files
+            adAttributes: JSON.stringify(attributesObject)
+        };
+    
+        // Додаємо фото файли як Base64 строки в photoFiles
+        for (const file of photoFiles) {
+            const base64String = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+            formData.photoFiles.push(base64String);
+        }
+    
         try {
-            const adResponse = await dispatch(addNewAdvertisement(formData)).unwrap();
-            const adId = adResponse.id;
-
-            const photosData = new FormData();
-            photoFiles.forEach((file) => photosData.append('files[]', file));
-
-            await dispatch(uploadAdvertsPhoto({ adId, files: photoFiles })).unwrap();
-
+            // Відправка основного оголошення на сервер
+            await dispatch(addNewAdvertisement(formData)).unwrap();
+    
+            // Очищення форми
             setTitle('');
             setDescription('');
             setPrice('');
@@ -98,8 +109,9 @@ function AdvForm() {
                 pet_name: ''
             });
             setCategoryId('');
+    
         } catch (err) {
-            console.log('Failed to create advertisement or upload photos:', err);
+            console.log('Failed to create advertisement:', err);
         }
     };
 
@@ -159,20 +171,16 @@ function AdvForm() {
                     </div>
                 )}
             </div>
-            <div className={styles.formGroup}>
-                <div className={styles.formGroup}>
-                    <PhotoUploader onPhotosChange={handlePhotosOnChange} />
-                </div>
 
-                <div className={styles.formGroup}>
-                    <CategorySelector
-                        categoryId={categoryId}
-                        setCategoryId={setCategoryId}
-                        adAttributes={adAttributes}
-                        setAdAttributes={setAdAttributes}
-                    />
-                </div>
+            <div className={styles.formGroup}>
+                <CategorySelector
+                    categoryId={categoryId}
+                    setCategoryId={setCategoryId}
+                    adAttributes={adAttributes}
+                    setAdAttributes={setAdAttributes}
+                />
             </div>
+            <PhotoUploader onPhotosChange={handlePhotosOnChange} />
 
             <button type="submit" className={styles.submitButton}>
                 Add Advertisement

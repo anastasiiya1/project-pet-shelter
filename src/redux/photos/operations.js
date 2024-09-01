@@ -52,7 +52,31 @@ export const getAllAdvertPhotos = createAsyncThunk('photos/getAllAdvertPhotos', 
     }
 });
 
-// Upload photos for an advertisement
+//Upload photos on a server
+export const uploadPhotos = createAsyncThunk('photos/uploadPhotos', async ({ files }, thunkAPI) => {
+    const uploadedPhotoIds = [];
+
+    for (const file of files) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await axios.post('/api/v1/photo', formData);
+
+            if (response.status !== 200) {
+                throw new Error('Failed to upload photos');
+            }
+
+            uploadedPhotoIds.push(response.data.id);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.message);
+        }
+    }
+
+    return uploadedPhotoIds; // Повертаємо масив з id завантажених фото
+});
+
+// Upload photos for an advertisement by adId
 export const uploadAdvertsPhoto = createAsyncThunk('photos/uploadAdvertsPhoto', async ({ adId, files }, thunkAPI) => {
     try {
         const formData = new FormData();

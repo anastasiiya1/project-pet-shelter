@@ -24,7 +24,7 @@ export const addNewAdvertisement = createAsyncThunk('advertisement/addNew', asyn
         return data;
     } catch (err) {
         console.error('Error adding advertisement:', err.response ? err.response.data : err.message);
-        return thunkAPI.rejectWithValue(err.message);
+        return thunkAPI.rejectWithValue(err.response ? err.response.data : err.message);
     }
 });
 

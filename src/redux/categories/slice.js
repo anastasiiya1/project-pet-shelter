@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { getCategories, getCategoryById, updateCategory, deleteCategory } from './operations';
 
 const initialState = {
-    categories: [],
-    currentCategory: null,
+    items: [],
+    selectedCategory: null,
     isLoading: false,
     error: null
 };
@@ -18,36 +18,35 @@ const handleReject = (state, action) => {
 };
 
 const categorySlice = createSlice({
-    name: 'category',
+    name: 'categories',
     initialState,
     extraReducers: (builder) => {
         builder
             .addCase(getCategories.pending, handlePending)
             .addCase(getCategories.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.categories = action.payload;
+                state.items = action.payload;
             })
             .addCase(getCategories.rejected, handleReject)
             .addCase(getCategoryById.pending, handlePending)
             .addCase(getCategoryById.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.currentCategory = action.payload;
+                state.selectedCategory = action.payload;
             })
             .addCase(getCategoryById.rejected, handleReject)
             .addCase(updateCategory.pending, handlePending)
             .addCase(updateCategory.fulfilled, (action, state) => {
                 state.isLoading = false;
-                state.categories = state.categories.map((category) =>
-                    category.id === action.payload.id ? action.payload : category
-                );
-                state.currentCategory = action.payload;
+                const index = state.items.findIndex((category) => category.id === action.payload.id);
+                if (index !== -1) {
+                    state.items[index] = action.payload;
+                }
             })
             .addCase(updateCategory.rejected, handleReject)
             .addCase(deleteCategory.pending, handlePending)
             .addCase(deleteCategory.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.categories = state.categories.filter((category) => category.id !== action.payload);
-                state.currentCategory = null;
+                state.items = state.items.filter(category => category.id !== action.payload);
             })
             .addCase(deleteCategory.rejected, handleReject);
     }

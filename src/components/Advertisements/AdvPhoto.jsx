@@ -11,10 +11,9 @@ function AdvPhoto({ adId, thumbnailId }) {
     const error = useSelector(selectError);
 
     useEffect(() => {
-		const fetchThumbnail = async () => {
+		const fetchThumbnail= async () => {
 			try {
 				const url = await dispatch(getAdvertThumbnail({ adId, thumbnailId })).unwrap();
-				// console.log('Fetched url:', url);
 				setPhotoUrl(url);
 			} catch (error) {
 				console.log('Failed to fetch thumbnail:', error);
