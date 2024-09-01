@@ -28,12 +28,15 @@ export const addNewAdvertisement = createAsyncThunk('advertisement/addNew', asyn
     }
 });
 
-export const deleteAdvertisement = createAsyncThunk('advertisements/delete', async (adId, thunkAPI) => {
+export const deleteAdvertisement = createAsyncThunk(
+  'advertisements/delete',
+  async (adId, thunkAPI) => {
     try {
-        const { data } = await axios.delete(`/api/v1//ad/${adId}`);
-        return data;
+      await axios.delete(`/api/v1/ad/${adId}`);
+      return adId;
     } catch (err) {
-        return thunkAPI.rejectWithValue(err.message);
+      return thunkAPI.rejectWithValue(err.message);
     }
-});
+  }
+);
 

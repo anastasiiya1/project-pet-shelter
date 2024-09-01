@@ -35,7 +35,7 @@ function CategorySelector({ formData, setFormData }) {
             setAttributes(action.payload.attribute || []);
             setFormData((prevState) => ({
                 ...prevState,
-                adAttributes: []  // Очищуємо атрибути при зміні категорії
+                adAttributes: []  
             }));
         } catch (error) {
             console.error('Error fetching category:', error);

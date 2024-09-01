@@ -5,6 +5,7 @@ import { selectAdvertisements, selectIsLoading, selectError } from '../../redux/
 // import AdvForm from './AdvForm';
 import CreateAdvForm from '../CreateAdvForm/CreateAdvForm';
 import AdvPhoto from './AdvPhoto';
+import SearchSidebar from '../SearchSidebar/SearchSidebar';
 import styles from './AdvList.module.css';
 
 function AdvList() {
@@ -25,9 +26,10 @@ function AdvList() {
     if (error) return <p>Error: {error}</p>;
 
     return (
+        <div className={styles.mainContainer}>
+            <SearchSidebar/>
         <div className={styles.advertisementsContainer}>
             <CreateAdvForm/>
-            {/* <AdvForm /> */}
             <h2>Advertisements</h2>
             <ul className={styles.advertisementsList}>
                 {adverts.length > 0 ? (
@@ -45,6 +47,7 @@ function AdvList() {
                     <p>No advertisements found.</p>
                 )}
             </ul>
+        </div>
         </div>
     );
 }

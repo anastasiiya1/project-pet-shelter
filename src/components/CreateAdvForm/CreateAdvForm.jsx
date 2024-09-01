@@ -9,7 +9,7 @@ const CreateAdvForm = () => {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        price: '',
+        price: '0.00',
         categoryId: '',
         photoFiles: [],
         adAttributes: [],
@@ -17,7 +17,6 @@ const CreateAdvForm = () => {
     });
     const [isFree, setIsFree] = useState(true);
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [isVisible, setIsVisible] = useState(true);
     const [error, setError] = useState('');
 
     const handleInputChange = (e) => {
@@ -37,6 +36,11 @@ const CreateAdvForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!isFree && (!formData.price || parseFloat(formData.price) <= 0)) {
+            setError('Please enter a valid price.');
+            return;
+        }
 
         const fd = new FormData();
         fd.append('title', formData.title);
@@ -59,7 +63,6 @@ const CreateAdvForm = () => {
             .then((response) => {
                 if (response.status === 200) {
                     setIsSubmitted(true);
-                    setIsVisible(false);
                     setError('');
                 } else if (response.status === 400) {
                     setError('Error: Please try again.');
@@ -73,19 +76,19 @@ const CreateAdvForm = () => {
 
     return (
         <div>
-            {isVisible && (
-                <form className={styles.form} onSubmit={handleSubmit}>
-                    <div className={styles.formGroup}>
-                        <label>Advertisement title</label>
-                        <input type="text" name="title" value={formData.title} onChange={handleInputChange} required />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>Description</label>
-                        <textarea name="description" value={formData.description} onChange={handleInputChange} required />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label>Price</label>
-                        <div className={styles.radioGroup}>
+            <form className={styles.form} onSubmit={handleSubmit}>
+                <div className={styles.formGroup}>
+                    <label>Advertisement title</label>
+                    <input type="text" name="title" value={formData.title} onChange={handleInputChange} required />
+                </div>
+                <div className={styles.formGroup}>
+                    <label>Description</label>
+                    <textarea name="description" value={formData.description} onChange={handleInputChange} required />
+                </div>
+                <div className={styles.formGroup}>
+                    <label>Price</label>
+                    <div className={styles.radioGroup}>
+                        <label>
                             <input
                                 type="radio"
                                 name="priceType"
@@ -100,6 +103,8 @@ const CreateAdvForm = () => {
                                 }}
                             />{' '}
                             Free
+                        </label>
+                        <label>
                             <input
                                 type="radio"
                                 name="priceType"
@@ -108,38 +113,34 @@ const CreateAdvForm = () => {
                                 onChange={() => setIsFree(false)}
                             />{' '}
                             Paid
-                            {!isFree && (
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    name="price"
-                                    value={formData.price}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            )}
-                        </div>
+                        </label>
+                        {!isFree && (
+                            <input
+                                type="number"
+                                step="0.01"
+                                name="price"
+                                value={formData.price}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        )}
                     </div>
-                    <CategorySelector formData={formData} setFormData={setFormData} />
-                    <div className={styles.uploadGroup}>
-                        <label>Upload photos:</label>
-                        <input type="file" multiple onChange={handlePhotoChange} />
-                    </div>
-                    <button className={styles.button} type="submit">
-                        Create Advertisement
-                    </button>
-                </form>
-            )}
-            {isSubmitted && !isVisible && (
+                </div>
+                <CategorySelector formData={formData} setFormData={setFormData} />
+                <div className={styles.uploadGroup}>
+                    <label>Upload photos:</label>
+                    <input type="file" multiple onChange={handlePhotoChange} accept="image/*, .png, .gif, .webp" />
+                </div>
+                <button className={styles.button} type="submit">
+                    Create Advertisement
+                </button>
+            </form>
+            {isSubmitted && (
                 <div className={styles.successMessage}>
                     Congratulations! Your advertisement was successfully created.
                 </div>
             )}
-            {error && (
-                <div className={styles.errorMessage}>
-                    {error}
-                </div>
-            )}
+            {error && <div className={styles.errorMessage}>{error}</div>}
         </div>
     );
 };

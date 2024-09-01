@@ -6,16 +6,39 @@ const advertisementSlice = createSlice({
     initialState: {
         items: [],
         filteredItems: [],
-        searchQuery: '',
+        searchQuery: {
+            categoryId: '',
+            breed: '',
+            age: '',
+            size: '',
+            gender: '',
+            color: '',
+            furLength: '',
+            priceRange: { min: '', max: '' }
+        },
         isLoading: false,
         error: null
     },
     reducers: {
         setSearchQuery(state, action) {
             state.searchQuery = action.payload;
-            state.filteredItems = state.items.filter((advert) =>
-                advert.title.toLowerCase().includes(state.searchQuery.toLowerCase())
-            );
+            const { categoryId, breed, age, size, gender, color, furLength, priceRange } = action.payload;
+            const minPrice = priceRange.min || '';
+            const maxPrice = priceRange.max || '';
+    
+            state.filteredItems = state.items.filter((advert) => {
+                const matchesCategory = !categoryId || advert.categoryId === categoryId;
+                const matchesBreed = !breed || advert.breed === breed;
+                const matchesAge = !age || advert.age === age;
+                const matchesSize = !size || advert.size === size;
+                const matchesGender = !gender || advert.gender === gender;
+                const matchesColor = !color || advert.color === color;
+                const matchesFurLength = !furLength || advert.furLength === furLength;
+                const matchesPriceRange =
+                    (!minPrice || advert.price >= minPrice) && (!maxPrice || advert.price <= maxPrice);
+    
+                return matchesCategory && matchesBreed && matchesAge && matchesSize && matchesGender && matchesColor && matchesFurLength && matchesPriceRange;
+            });
         }
     },
     extraReducers: (builder) => {
@@ -27,9 +50,7 @@ const advertisementSlice = createSlice({
             .addCase(fetchAdvertisements.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.items = action.payload;
-                state.filteredItems = action.payload.filter((advert) =>
-                    advert.title.toLowerCase().includes(state.searchQuery.toLowerCase())
-                );
+                state.filteredItems = state.items.filter((advert) => advert.title.includes(state.searchQuery.title));
             })
             .addCase(fetchAdvertisements.rejected, (state, action) => {
                 state.isLoading = false;
@@ -43,7 +64,7 @@ const advertisementSlice = createSlice({
                 state.isLoading = false;
                 state.items.push(action.payload);
                 state.filteredItems = state.items.filter((advert) =>
-                    advert.title.toLowerCase().includes(state.searchQuery.toLowerCase())
+                    advert.title.toLowerCase().includes(state.searchQuery.title.toLowerCase())
                 );
             })
             .addCase(addNewAdvertisement.rejected, (state, action) => {
@@ -56,9 +77,9 @@ const advertisementSlice = createSlice({
             })
             .addCase(deleteAdvertisement.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.items = state.items.filter((advert) => advert.id !== action.payload.id);
+                state.items = state.items.filter((advert) => advert.id !== action.payload);
                 state.filteredItems = state.items.filter((advert) =>
-                    advert.title.toLowerCase().includes(state.searchQuery.toLowerCase())
+                    advert.title.toLowerCase().includes(state.searchQuery.title.toLowerCase())
                 );
             })
             .addCase(deleteAdvertisement.rejected, (state, action) => {

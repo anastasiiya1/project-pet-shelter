@@ -4,5 +4,5 @@ const selectCategoriesState = (state) => state.categories;
 
 export const selectCategories = createSelector(
     [selectCategoriesState],
-    (categoriesState) => categoriesState ? categoriesState.items : []  // Перевірка на undefined
+    (categoriesState) => categoriesState ? categoriesState.items : []  
 );
