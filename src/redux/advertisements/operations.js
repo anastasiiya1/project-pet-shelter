@@ -3,15 +3,15 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
-export const fetchAdvertisements = createAsyncThunk('advertisements/fetchAll', async (_, thunkAPI) => {
-    try {
-        const { data } = await axios.get('/api/v1/ad');
-        console.log(data.content);
-
-        return data.content;
-    } catch (err) {
-        return thunkAPI.rejectWithValue(err.message);
-    }
+export const fetchAdvertisements = createAsyncThunk('advertisements/fetchAll', async (filters = [], thunkAPI) => {
+  try {
+      const { data } = await axios.get('/api/v1/ad', { params: { filters } });
+      console.log('Filters:', filters);
+      console.log('Data Content:', data.content);
+      return data.content;
+  } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+  }
 });
 
 export const addNewAdvertisement = createAsyncThunk('advertisement/addNew', async (formData, thunkAPI) => {

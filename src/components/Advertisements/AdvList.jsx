@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAdvertisements, deleteAdvertisement } from '../../redux/advertisements/operations';
 import { selectAdvertisements, selectIsLoading, selectError } from '../../redux/advertisements/selectors';
-// import AdvForm from './AdvForm';
+import { selectSelectedFilters } from '../../redux/categories/selectors';
+import { toggleFilter } from '../../redux/categories/slice';
 import CreateAdvForm from '../CreateAdvForm/CreateAdvForm';
 import AdvPhoto from './AdvPhoto';
 import SearchSidebar from '../SearchSidebar/SearchSidebar';
@@ -13,41 +14,54 @@ function AdvList() {
     const adverts = useSelector(selectAdvertisements);
     const isLoading = useSelector(selectIsLoading);
     const error = useSelector(selectError);
+    const filters = useSelector(selectSelectedFilters);
 
     useEffect(() => {
         dispatch(fetchAdvertisements());
     }, [dispatch]);
 
+    // Фільтрація даних
+    const filteredAdverts = useMemo(() => {
+        return adverts.filter((ad) => {
+            // Ваш код для фільтрації. Наприклад:
+            return filters.category ? ad.category === filters.category : true;
+        });
+    }, [adverts, filters]);
+
     const handleDelete = (id) => {
         dispatch(deleteAdvertisement(id));
     };
+
+    const handleFilterChange = (newFilter) => {
+        dispatch(toggleFilter(newFilter));
+    }
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
     return (
         <div className={styles.mainContainer}>
-            <SearchSidebar/>
-        <div className={styles.advertisementsContainer}>
-            <CreateAdvForm/>
-            <h2>Advertisements</h2>
-            <ul className={styles.advertisementsList}>
-                {adverts.length > 0 ? (
-                    adverts.map((ad) => (
-                        <li key={ad.id} className={styles.advertisementItem}>
-                            <AdvPhoto adId={ad.id} thumbnailId={ad.thumbnail.id}/>
-                            <h3>{ad.title}</h3>
-                            <p>{ad.description}</p>
-                            <button onClick={() => handleDelete(ad.id)} className={styles.deleteButton}>
-                                Delete
-                            </button>
-                        </li>
-                    ))
-                ) : (
-                    <p>No advertisements found.</p>
-                )}
-            </ul>
-        </div>
+            <SearchSidebar onFilterChange={handleFilterChange}/>
+            <div className={styles.advertisementsContainer}>
+                <CreateAdvForm />
+                <h2>Advertisements</h2>
+                <ul className={styles.advertisementsList}>
+                    {filteredAdverts.length > 0 ? (
+                        filteredAdverts.map((ad) => (
+                            <li key={ad.id} className={styles.advertisementItem}>
+                                <AdvPhoto adId={ad.id} thumbnailId={ad.thumbnail.id} />
+                                <h3>{ad.title}</h3>
+                                <p>{ad.description}</p>
+                                <button onClick={() => handleDelete(ad.id)} className={styles.deleteButton}>
+                                    Delete
+                                </button>
+                            </li>
+                        ))
+                    ) : (
+                        <p>No advertisements found.</p>
+                    )}
+                </ul>
+            </div>
         </div>
     );
 }
