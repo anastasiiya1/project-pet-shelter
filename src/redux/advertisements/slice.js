@@ -79,7 +79,7 @@ const advertisementSlice = createSlice({
                 state.isLoading = false;
                 state.items = state.items.filter((advert) => advert.id !== action.payload);
                 state.filteredItems = state.items.filter((advert) =>
-                    advert.title.toLowerCase().includes(state.searchQuery.title.toLowerCase())
+                    advert.title.includes(state.searchQuery.title)
                 );
             })
             .addCase(deleteAdvertisement.rejected, (state, action) => {

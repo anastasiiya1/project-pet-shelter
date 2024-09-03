@@ -23,9 +23,10 @@ const categorySlice = createSlice({
     initialState,
     reducers: {
         toggleFilter: (state, action) => {
-            const index = state.selectedFilters.indexOf(action.payload);
+            const categoryId = action.payload;
+            const index = state.selectedFilters.indexOf(categoryId);
             if(index === -1){
-                state.selectedFilters.push(action.payload);
+                state.selectedFilters.push(categoryId);
             }else{
                 state.selectedFilters.splice(index, 1);
             }
@@ -53,16 +54,16 @@ const categorySlice = createSlice({
             .addCase(updateCategory.pending, handlePending)
             .addCase(updateCategory.fulfilled, (state, action) => {
                 state.isLoading = false;
-                const index = state.items.findIndex((category) => category.id === action.payload.id);
+                const index = state.categories.findIndex((category) => category.id === action.payload.id);
                 if (index !== -1) {
-                    state.items[index] = action.payload;
+                    state.categories[index] = action.payload;
                 }
             })
             .addCase(updateCategory.rejected, handleReject)
             .addCase(deleteCategory.pending, handlePending)
             .addCase(deleteCategory.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.items = state.items.filter(category => category.id !== action.payload);
+                state.categories = state.categories.filter(category => category.id !== action.payload);
             })
             .addCase(deleteCategory.rejected, handleReject);
     }

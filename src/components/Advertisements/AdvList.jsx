@@ -22,10 +22,16 @@ function AdvList() {
 
     // Фільтрація даних
     const filteredAdverts = useMemo(() => {
-        return adverts.filter((ad) => {
-            // Ваш код для фільтрації. Наприклад:
-            return filters.category ? ad.category === filters.category : true;
-        });
+        // console.log('Applied filters:', filters);
+        // console.log('Advertisements:', adverts);
+        if (!filters || filters.length === 0) {
+            return adverts;
+        } else {
+            return adverts.filter((ad) => {
+                // console.log('Checking ad:', ad);
+                return filters.includes(ad.categoryId.toString());
+            });
+        }
     }, [adverts, filters]);
 
     const handleDelete = (id) => {
@@ -34,14 +40,14 @@ function AdvList() {
 
     const handleFilterChange = (newFilter) => {
         dispatch(toggleFilter(newFilter));
-    }
+    };
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
     return (
         <div className={styles.mainContainer}>
-            <SearchSidebar onFilterChange={handleFilterChange}/>
+            <SearchSidebar onFilterChange={handleFilterChange} />
             <div className={styles.advertisementsContainer}>
                 <CreateAdvForm />
                 <h2>Advertisements</h2>

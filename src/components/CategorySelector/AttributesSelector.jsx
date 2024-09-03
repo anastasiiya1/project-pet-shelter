@@ -3,7 +3,7 @@ import attributesMap from './AttributesMap';
 import { useState, useEffect } from 'react';
 import clsx from 'clsx';
 
-function AttributesSelector({ attributes, adAttributes, setAdAttributes }) {
+function AttributesSelector({ attributes, adAttributes, setAdAttributes, showSaveButton = true }) {
     const [localAttributes, setLocalAttributes] = useState([]);
     const [selectedColor, setSelectedColor] = useState('');
 
@@ -98,6 +98,7 @@ function AttributesSelector({ attributes, adAttributes, setAdAttributes }) {
                         onChange={(e) => handleAttributeChange(attribute.id, e.target.value)}
                     >
                         <option value="">Select coat length</option>
+                        <option value="any">no coat</option>
                         <option value="short">short</option>
                         <option value="medium">medium</option>
                         <option value="long">long</option>
@@ -145,9 +146,11 @@ function AttributesSelector({ attributes, adAttributes, setAdAttributes }) {
                     {renderInputField(attribute)}
                 </div>
             ))}
-            <button type="button" onClick={updateAttributesInParent}>
-                Save changes
-            </button>
+            {showSaveButton && (
+                <button type="button" onClick={updateAttributesInParent}>
+                    Save changes
+                </button>
+            )}
         </div>
     );
 }
