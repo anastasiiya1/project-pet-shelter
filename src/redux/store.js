@@ -1,22 +1,23 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import advertisementsReducer from './advertisements/slice'; // Use default import
-import { categoriesReducer } from './categories/slice';
-import photosReducer from './photos/slice'; // Use default import
-import demoReducer from './demo/slice'; // Use default import
+import advertisementsReducer from './advertisements/slice';
+// import { categoriesReducer } from './categories/slice';
+import photosReducer from './photos/slice'; 
+import authReducer from './auth/slice'
 
-const demoPersistConfig = {
-    key: 'demo',
+const authPersistConfig = {
+    key: 'auth',
     storage,
-};
+    whitelist: ['token'],
+  };
 
 export const store = configureStore({
     reducer: {
+        auth: persistReducer(authPersistConfig, authReducer),
         advertisements: advertisementsReducer,
         photos: photosReducer,
-        demo: persistReducer(demoPersistConfig, demoReducer),
-        category: categoriesReducer,
+        // category: categoriesReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

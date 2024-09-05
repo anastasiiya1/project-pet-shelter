@@ -91,5 +91,4 @@ const advertisementSlice = createSlice({
 
 export const { setSearchQuery } = advertisementSlice.actions;
 
-// Default export
 export default advertisementSlice.reducer;

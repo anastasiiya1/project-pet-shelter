@@ -23,19 +23,12 @@ function RegistrationForm() {
         lastName: Yup.string().required('Last name is required'),
         userRole: Yup.mixed().oneOf(['SHELTER', 'INDIVIDUAL']).required('User role is required'),
         email: Yup.string().email('Invalid email address').required('Email is required'),
-        password: Yup.string()
-            .matches(/(?=.*[a-z])/, 'Password must contain at least one lowercase letter')
-            .matches(/(?=.*[A-Z])/, 'Password must contain at least one uppercase letter')
-            .matches(/(?=.*\d)/, 'Password must contain at least one digit')
-            .matches(/(?=.*[@$!%*?&])/, 'Password must contain at least one special character')
-            .min(8, 'Password should be at least 8 characters')
-            .required('Password is required'),
-        confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'Passwords are not matching')
-            .required('Password confirmation is required')
+        password: Yup.string().required('Password is required'),
+       
     });
 
     const handleRegistration = async (values, { resetForm }) => {
+        console.log('Handling registration with values:', values);
         try {
             const userData = {
                 firstName: values.firstName,
@@ -48,14 +41,14 @@ function RegistrationForm() {
             if (registerUser.fulfilled.match(actionResult)) {
                 console.log('Registration successful:', actionResult.payload);
             } else {
-                console.log('Registration failed:', actionResult.payload);
+                console.error('Registration failed:', actionResult.payload);
+                setError('Registration failed. Please try again.');
             }
             resetForm();
             setError('');
-            console.log('success');
         } catch (err) {
+            console.error('Registration catch block error:', err.message);
             setError('Registration failed. Please try again.');
-            console.log('error', err.message);
         }
     };
 
@@ -93,11 +86,11 @@ function RegistrationForm() {
                             <Field type="password" id="password" name="password" />
                             <ErrorMessage name="password" component="div" className={styles.error} />
                         </div>
-                        <div className={styles.formGroup}>
+                        {/* <div className={styles.formGroup}>
                             <label htmlFor="confirmPassword">Confirm Password</label>
                             <Field type="password" id="confirmPassword" name="confirmPassword" />
                             <ErrorMessage name="confirmPassword" component="div" className={styles.error} />
-                        </div>
+                        </div> */}
                         {error && <div className={styles.error}>{error}</div>}
                         <button type="submit" className={styles.submitButton}>
                             Sign up

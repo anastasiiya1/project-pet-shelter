@@ -2,9 +2,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import RegistrationForm from '../RegistrationForm/RegistrationForm';
 import * as Yup from 'yup';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/auth/operations';
 import styles from './SignInForm.module.css';
+import { selectError, selectIsLoading, selectIsLoggedIn } from '../../redux/auth/selectors';
 
 const SignInSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -17,41 +18,34 @@ const initialValues = {
 };
 
 function SignInForm() {
-    const [isSignUp, setIsSignUp] = useState(false);
-    const [loginError, setLoginError] = useState(null);
     const dispatch = useDispatch();
+
+    const isLoggedIn = useSelector(selectIsLoggedIn);
+    const isLoading = useSelector(selectIsLoading);
+    const error = useSelector(selectError);
+
+    const [isSignUp, setIsSignUp] = useState(false);
 
     const toggleMode = () => {
         setIsSignUp((prev) => !prev);
     };
 
-    const handleSignIn = async (values, { resetForm }) => {
-        try {
-            const userData = {
-                email: values.email,
-                password: values.password
-            };
-            const actionResult = await dispatch(loginUser(userData));
-            if (loginUser.fulfilled.match(actionResult)) {
-                console.log('Login successful:', actionResult.payload);
-            } else {
-                console.log('Login failed:', actionResult.payload);
-            }
-            resetForm();
-            setLoginError('');
-            console.log('login form work OK');
-        } catch (error) {
-            console.log('login failed', error);
-            setLoginError('Login failed');
-        }
+    const handleSignIn = (values) => {
+        dispatch(loginUser(values));
     };
 
+    if (isLoggedIn) {
+        return <p>You are already logged in</p>;
+    }
     return (
         <div className={styles.container}>
             {isSignUp ? (
                 <RegistrationForm />
             ) : (
                 <>
+                    {isLoading && <p>Is loading...</p>}
+                    {error && <p>Error: {error}</p>}
+
                     <h1>Sign in</h1>
                     <Formik initialValues={initialValues} validationSchema={SignInSchema} onSubmit={handleSignIn}>
                         {() => (
@@ -70,9 +64,9 @@ function SignInForm() {
                                     <Field name="password" type="password" className={styles.input} />
                                     <ErrorMessage name="password" component="div" className={styles.error} />
                                 </div>
-                                {loginError && <div className={styles.error}>{loginError}</div>}
-                                <button type="submit" className={styles.button}>
-                                    Sign in
+                                {error && <div className={styles.error}>{error}</div>}
+                                <button type="submit" className={styles.button} disabled={isLoading}>
+                                    {isLoading ? 'Signing in...' : 'Sign in'}
                                 </button>
                             </Form>
                         )}
