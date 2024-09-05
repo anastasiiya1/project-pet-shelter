@@ -6,8 +6,5 @@ export default defineConfig({
     plugins: [react()],
     build: {
         sourcemap: true
-    },
-    server: {
-        port: 8080
     }
 });
