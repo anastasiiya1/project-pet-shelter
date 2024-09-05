@@ -45,3 +45,63 @@
 .deleteButton:hover {
     background-color: #ff1a1a;
 }
+
+/* styles for all ads */
+
+.container {
+    width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #333;
+}
+
+.advertisementsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 1000px;
+    gap: 20px;
+    list-style: none;
+    padding: 0 100px;
+    /* margin: 0 auto; */
+}
+
+.advertisementCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 800px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.advertisementCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.advertisementCard h3 {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.advertisementCard p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #666;
+    text-align: center;
+}

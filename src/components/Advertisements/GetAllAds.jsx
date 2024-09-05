@@ -19,12 +19,12 @@ function GetAllAds() {
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className={styles.mainContainer}>
-            <h2>Advertisements</h2>
-            <ul className={styles.advertisementsList}>
+        <div className={styles.container}>
+            <h2 className={styles.title}>Meet our pets</h2>
+            <ul className={styles.advertisementsContainer}>
                 {adverts.length > 0 ? (
                     adverts.map((ad) => (
-                        <li key={ad.id} className={styles.advertisementItem}>
+                        <li key={ad.id} className={styles.advertisementCard}>
                             <AdvPhoto adId={ad.id} thumbnailId={ad.thumbnail.id} />
                             <h3>{ad.title}</h3>
                             <p>{ad.description}</p>
