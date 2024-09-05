@@ -27,6 +27,7 @@ function AdvPhoto({ adId, thumbnailId }) {
 
     return (
         <div className={styles.photoContainer}>
+            {/* {console.log('photoUrl', photoUrl)} */}
             {photoUrl ? <img src={photoUrl} alt={photoUrl} className={styles.adPhoto} /> : <p>No photo available</p>}
         </div>
     );
